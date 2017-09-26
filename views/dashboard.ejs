@@ -33,33 +33,6 @@
         width: 900px;
         margin-bottom: 20px;
     }
-
-    .headerBar {
-        font-family: Arial;
-        color: #fff;
-        width: 350px;
-        padding: 10px;
-        background-color: steelblue;"
-    }
-
-    .live-container, .trending-container {
-        float: left;
-        width: 370px;
-        height: 240px;
-        margin-left: 20px;
-        margin-bottom: 20px;
-        font-size: 15px;
-        font-family: 'arial';
-        overflow: scroll;
-    }
-
-    .trending-list {
-        font-family: arial;
-    }
-
-    .trending-list li {
-        padding: 3px;
-    }
 </style>
 
 <body>
@@ -68,31 +41,6 @@
     <div class="subText">(What's Twitter's current mood)</div>
     <div id="chart_container" style="width: 1300px; float: left;">
        <div id="chart" style="float: left; width: 900px;"></div>
-
-        <div class="live-container">
-            <div class="headerBar">Live News Feeds</div>
-            <div id="news">
-                <ul>
-                    <% Object.keys(news).forEach((network) => { %>
-                        <% news[network].forEach((item) => { %>
-                            <li style="margin-bottom: 20px;"><%= network.toUpperCase() %> - <%= item.text %></li>
-                        <% }) %>
-                    <% }) %>
-                </ul>
-            </div>
-        </div>
-
-        <div class="trending-container">
-            <div class="headerBar">Trending</div>
-            <div id="trending" class="trending-list">
-                <ul>
-                <% for(var i=0; i< trending.length; i++){ %>
-                    <li><a href="<%= trending[i].url %>" target="_blank"><%= trending[i].name %></a></li>
-                <% } %>
-                </ul>
-            </div>
-        </div>
-
     </div>
     <div style="clear: both"></div>
     <div id="legend" style="margin-top: 15px;"></div>
@@ -150,37 +98,6 @@
           graph.render();
         });
       }, timeInterval);
-
-      // Fetch the trending hashtags every 5 minutes
-      setInterval(function() {
-        $.getJSON('http://localhost:3000/trending', function(data) {
-          var html = '<ul>';
-
-          data.forEach((tweet) => {
-            html += `<li><a href="${tweet.url}" target="_blank">${tweet.name}</a></li>`
-          })
-
-          html += '</ul>';
-
-          $("#trending").html(html)
-        });
-      }, 25000);
-
-      setInterval(function() {
-        $.getJSON('http://localhost:3000/news', function(data) {
-          var html = '<ul>';
-
-          Object.keys(data).forEach((network) => {
-            data[network].forEach((item) => {
-                html += `<li style="margin-bottom: 20px;">${network.toUpperCase()} - ${item.text}</li>`
-            })
-          })
-
-          html += '</ul>';
-
-          $("#news").html(html)
-        });
-      }, 25000);
     </script>
 </div>
 </body>

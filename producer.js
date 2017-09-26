@@ -23,8 +23,8 @@ const kinesis = new AWS.Kinesis({
 
 const AWS_KINESIS_STREAM = 'YOUR_TWITTER_STREAM_NAME';
 
-client.stream('statuses/sample', {language: 'en'}, function(stream){
-  stream.on('data', function(event) {
+client.stream('statuses/sample', {language: 'en'}, (stream) => {
+  stream.on('data', (event) => {
 
     const text = event.text;
 
@@ -35,12 +35,12 @@ client.stream('statuses/sample', {language: 'en'}, function(stream){
       PartitionKey: 'YOUR_PARTITION_KEY',
     }
 
-    kinesis.putRecord(params, function (err, data) {
+    kinesis.putRecord(params, (err, data) => {
       if (err) throw err;
     })
   })
 
-  stream.on('error', function(e) {
+  stream.on('error', (e) => {
     throw e;
   })
 })
